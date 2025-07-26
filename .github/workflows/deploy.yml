@@ -1,0 +1,26 @@
+name: Deploy to Amane
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H amane.ie.u-ryukyu.ac.jp >> ~/.ssh/known_hosts
+
+      - name: Deploy HTML
+        run: |
+          rsync -rlptvzP html e235718@amane.ie.u-ryukyu.ac.jp:/home/student/e23/e235718/public_html
+          rsync -rlptvzP md e235718@amane.ie.u-ryukyu.ac.jp:/home/student/e23/e235718/public_html/md
