@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>OS8.1</title>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">OS8.1</h1>
+</header>
+<h3 id="malloc_test--m-10000000--l-10">./malloc_test -m 10000000 -l
+10</h3>
+<figure>
+<img src="https://ie.u-ryukyu.ac.jp/~e235718/os/8.1/img/1.png"
+alt="1.png" />
+<figcaption aria-hidden="true">1.png</figcaption>
+</figure>
+<h3 id="malloc_test--m-1000000--l-10">./malloc_test -m 1000000 -l
+10</h3>
+<figure>
+<img src="https://ie.u-ryukyu.ac.jp/~e235718/os/8.1/img/2.png"
+alt="2.png" />
+<figcaption aria-hidden="true">2.png</figcaption>
+</figure>
+<h3 id="malloc_test--m-100000--l-10">./malloc_test -m 100000 -l 10</h3>
+<figure>
+<img src="https://ie.u-ryukyu.ac.jp/~e235718/os/8.1/img/3.png"
+alt="3.png" />
+<figcaption aria-hidden="true">3.png</figcaption>
+</figure>
+<h3 id="malloc_test--m-10000--l-10">./malloc_test -m 10000 -l 10</h3>
+<figure>
+<img src="https://ie.u-ryukyu.ac.jp/~e235718/os/8.1/img/4.png"
+alt="4.png" />
+<figcaption aria-hidden="true">4.png</figcaption>
+</figure>
+<h3 id="malloc_test--m-1000--l-10">./malloc_test -m 1000 -l 10</h3>
+<figure>
+<img src="https://ie.u-ryukyu.ac.jp/~e235718/os/8.1/img/5.png"
+alt="5.png" />
+<figcaption aria-hidden="true">5.png</figcaption>
+</figure>
+<h3 id="malloc_test--c-800--m-10000000--l-10">./malloc_test -c 800 -m
+10000000 -l 10</h3>
+<figure>
+<img src="https://ie.u-ryukyu.ac.jp/~e235718/os/8.1/img/6.png"
+alt="6.png" />
+<figcaption aria-hidden="true">6.png</figcaption>
+</figure>
+<h3 id="malloc_test--c-80--m-10000000--l-10">./malloc_test -c 80 -m
+10000000 -l 10</h3>
+<figure>
+<img src="https://ie.u-ryukyu.ac.jp/~e235718/os/8.1/img/7.png"
+alt="7.png" />
+<figcaption aria-hidden="true">7.png</figcaption>
+</figure>
+<h2 id="考察">考察</h2>
+<p>これらの結果からメモリの要求する際にサイズのばらつきが大きいほど断片化のサイズが大きくなる。またメモリを要求する回数が多ければ多いほど利用しているメモリのサイズが小さくなる。逆にメモリを要求を少なくすると一度にプロセスに割り当てられるメモリのサイズが大きくなる。</p>
+</body>
+</html>

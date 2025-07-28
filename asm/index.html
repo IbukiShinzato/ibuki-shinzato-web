@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="新里 伊武輝" />
+  <meta name="description" content="macOS で x86_64 アセンブリを書くための基本手順と注意点" />
+  <title>Assembly 入門メモ</title>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Assembly 入門メモ</h1>
+<p class="author">新里 伊武輝</p>
+</header>
+<h3 id="アセンブラのメモ">アセンブラのメモ</h3>
+<p><a href="https://godbolt.org">アセンブラ変換サイト（Godbolt）</a></p>
+<ul>
+<li>スタックは下に伸びる</li>
+<li><code>DWORD</code>（Double Word） = 32bit = 4バイト</li>
+</ul>
+<h2 id="実行方法macosの場合">実行方法（macOSの場合）</h2>
+<pre class="bash"><code>nasm -f macho64 &lt;file.asm&gt; -o &lt;file.o&gt;
+clang &lt;file.o&gt; -o &lt;executive_file&gt; -arch x86_64</code></pre>
+<ul>
+<li>$?は終了コード（プログラムがOSに返す数値、基本は0）</li>
+<li>global命令で外部公開</li>
+<li>global命令の際に_(アンダーバー)をつけないとリンカが見つけられないからmainも_mainとシンボル名にする</li>
+<li>*Linuxの場合は<code>-f elf64</code>を使う</li>
+</ul>
+<h2 id="動作確認">動作確認</h2>
+<pre class="bash"><code>./&lt;executive_file&gt;
+echo $?</code></pre>
+<p><code>$?</code> は直前のコマンドの終了コード（= 戻り値、通常は
+<code>eax</code> の値）</p>
+<h2 id="global命令とは">global命令とは？</h2>
+<ul>
+<li><code>global</code>
+命令で関数やラベルを外部公開できる（リンカから参照可能にする）</li>
+<li>macOS では C の <code>main</code> は <code>_main</code>
+という名前で呼ばれるため、アセンブリでは <code>global _main</code>
+のように書く必要がある。</li>
+</ul>
+</body>
+</html>
