@@ -36,3 +36,72 @@ echo $?
 
 - `global` 命令で関数やラベルを外部公開できる（リンカから参照可能にする）
 - macOS では C の `main` は `_main` という名前で呼ばれるため、アセンブリでは `global _main` のように書く必要がある。
+
+## clangでアセンブリ出力
+Cのコードをclangでアセンブリ出力してみる
+
+### main.c
+```c:main.c
+int add(int a, int b) {
+	return a + b;
+}
+
+int main() {
+	return add(5, 7);
+}
+```
+
+### アセンブリ出力
+```bash
+clang -S -O0 -arch x86_64 main.c -o main.s
+```
+
+### main.s
+```s:main.s
+	.section	__TEXT,__text,regular,pure_instructions
+	.build_version macos, 15, 0	sdk_version 15, 5
+	.globl	_add                            ## -- Begin function add
+	.p2align	4, 0x90
+_add:                                   ## @add
+	.cfi_startproc
+## %bb.0:
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register %rbp
+	movl	%edi, -4(%rbp)
+	movl	%esi, -8(%rbp)
+	movl	-4(%rbp), %eax
+	addl	-8(%rbp), %eax
+	popq	%rbp
+	retq
+	.cfi_endproc
+                                        ## -- End function
+	.globl	_main                           ## -- Begin function main
+	.p2align	4, 0x90
+_main:                                  ## @main
+	.cfi_startproc
+## %bb.0:
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset %rbp, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register %rbp
+	subq	$16, %rsp
+	movl	$0, -4(%rbp)
+	movl	$5, %edi
+	movl	$7, %esi
+	callq	_add
+	addq	$16, %rsp
+	popq	%rbp
+	retq
+	.cfi_endproc
+                                        ## -- End function
+.subsections_via_symbols
+```
+
+- -S アセンブリ出力
+- -O0 最適化オプション -O0は最適化なし
+- -arch アーキテクチャ指定
+

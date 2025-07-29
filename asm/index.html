@@ -39,5 +39,64 @@ echo $?</code></pre>
 という名前で呼ばれるため、アセンブリでは <code>global _main</code>
 のように書く必要がある。</li>
 </ul>
+<h2 id="clangでアセンブリ出力">clangでアセンブリ出力</h2>
+<p>Cのコードをclangでアセンブリ出力してみる</p>
+<h3 id="main.c">main.c</h3>
+<pre class="c:main.c"><code>int add(int a, int b) {
+    return a + b;
+}
+
+int main() {
+    return add(5, 7);
+}</code></pre>
+<h3 id="アセンブリ出力">アセンブリ出力</h3>
+<pre class="bash"><code>clang -S -O0 -arch x86_64 main.c -o main.s</code></pre>
+<h3 id="main.s">main.s</h3>
+<pre class="s:main.s"><code>    .section    __TEXT,__text,regular,pure_instructions
+    .build_version macos, 15, 0 sdk_version 15, 5
+    .globl  _add                            ## -- Begin function add
+    .p2align    4, 0x90
+_add:                                   ## @add
+    .cfi_startproc
+## %bb.0:
+    pushq   %rbp
+    .cfi_def_cfa_offset 16
+    .cfi_offset %rbp, -16
+    movq    %rsp, %rbp
+    .cfi_def_cfa_register %rbp
+    movl    %edi, -4(%rbp)
+    movl    %esi, -8(%rbp)
+    movl    -4(%rbp), %eax
+    addl    -8(%rbp), %eax
+    popq    %rbp
+    retq
+    .cfi_endproc
+                                        ## -- End function
+    .globl  _main                           ## -- Begin function main
+    .p2align    4, 0x90
+_main:                                  ## @main
+    .cfi_startproc
+## %bb.0:
+    pushq   %rbp
+    .cfi_def_cfa_offset 16
+    .cfi_offset %rbp, -16
+    movq    %rsp, %rbp
+    .cfi_def_cfa_register %rbp
+    subq    $16, %rsp
+    movl    $0, -4(%rbp)
+    movl    $5, %edi
+    movl    $7, %esi
+    callq   _add
+    addq    $16, %rsp
+    popq    %rbp
+    retq
+    .cfi_endproc
+                                        ## -- End function
+.subsections_via_symbols</code></pre>
+<ul>
+<li>-S アセンブリ出力</li>
+<li>-O0 最適化オプション -O0は最適化なし</li>
+<li>-arch アーキテクチャ指定</li>
+</ul>
 </body>
 </html>
