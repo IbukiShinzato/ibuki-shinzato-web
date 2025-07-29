@@ -1,11 +1,10 @@
 ---
 title: Assembly 入門メモ
-author: "新里 伊武輝"
 description: "macOS で x86_64 アセンブリを書くための基本手順と注意点"
 updated: 2025-07-28
 ---
 
-### アセンブラのメモ
+## アセンブラのメモ
 
 [アセンブラ変換サイト（Godbolt）](https://godbolt.org)
 

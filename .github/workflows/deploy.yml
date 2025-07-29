@@ -1,0 +1,23 @@
+name: Deploy to 学科サーバー
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Copy files via SSH
+        uses: appleboy/scp-action@master
+        with:
+          host: amane.ie.u-ryukyu.ac.jp
+          username: e235718
+          key: ${{ secrets.SSH_KEY }}
+          source: "public_html/*"
+          target: "~/public_html"
