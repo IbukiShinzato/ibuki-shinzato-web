@@ -19,5 +19,5 @@ jobs:
           host: amane.ie.u-ryukyu.ac.jp
           username: e235718
           key: ${{ secrets.SSH_KEY }}
-          source: "public_html/*"
+          source: "*"
           target: "~/public_html"
